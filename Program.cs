@@ -8,7 +8,7 @@ using System.Text.Json;
 HttpClient client = new();
 
 // GET method from API endpoint
-var response = await client.GetAsync("www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail");
+var response = await client.GetAsync("https://www.tateapi.com/api/quote");
 
 if (response.IsSuccessStatusCode)
 {
