@@ -1,20 +1,37 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Net.Http.Headers;
-using System.Text.Json;
 
-// Http client instance
-HttpClient client = new();
-
-// GET method from API endpoint
-var response = await client.GetAsync("https://www.tateapi.com/api/quote");
-
-if (response.IsSuccessStatusCode)
+namespace DrinksInfo
 {
-    string responseContent = await response.Content.ReadAsStringAsync();
-    Console.WriteLine("Content response from API:" + responseContent + "\n");
-    Console.ReadLine();
-}
+    class Program
+    {
+        static async Task Main(string[] args)
+        {
+            HttpClient client = new HttpClient();
+            try
+            {
+                // Call the API 
+                HttpResponseMessage response = await client.GetAsync("https://www.tateapi.com/api/quote");
 
+                // Check if API call is successful
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine(responseContent);
+                }
+                else
+                {
+                    Console.WriteLine("API call failed with status code: " + response.StatusCode);
+                }
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine("An error occurred: " + e.Message);
+            }
+        }
+
+
+    }
+}
 
