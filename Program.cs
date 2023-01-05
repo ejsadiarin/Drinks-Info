@@ -11,21 +11,21 @@ namespace TateQuotesAPI
     {
         static async Task Main(string[] args)
         {
-            var client = new RestClient();
-            var payload = new JObject();
+            using (var client = new RestClient("https://www.tateapi.com/api/quote"))
+            {
+
+                var request = new RestRequest();
+                request.AddJsonBody()
+
+            }
 
             // Set API endpoint
-            var request = new RestRequest("https://www.tateapi.com/api/quote", Method.Get);
 
             try
             {
                 // Call the API
-                RestResponse response = client.Execute(request);
-                if (response.IsSuccessStatusCode)
-                {
-                    // Deserialize JSON into object
-                   Model quote = JsonSerializer.Deserialize<Model>(response.Content);
-
+                if ()
+                { 
                     // Display
                     Console.WriteLine("Quote successful: \n\n" + quote.content);
                 }
@@ -42,6 +42,11 @@ namespace TateQuotesAPI
                 
             }
 
+        }
+
+        public class Quotes
+        {
+            public string Quote { get; set; }
         }
 
 
