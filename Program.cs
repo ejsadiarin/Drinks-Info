@@ -1,34 +1,47 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using RestSharp;
+using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
-namespace DrinksInfo
+namespace TateQuotesAPI
 {
     class Program
     {
         static async Task Main(string[] args)
         {
-            HttpClient client = new HttpClient();
+            var client = new RestClient();
+            var payload = new JObject();
+
+            // Set API endpoint
+            var request = new RestRequest("https://www.tateapi.com/api/quote", Method.Get);
+
             try
             {
-                // Call the API 
-                HttpResponseMessage response = await client.GetAsync("https://www.tateapi.com/api/quote");
-
-                // Check if API call is successful
+                // Call the API
+                RestResponse response = client.Execute(request);
                 if (response.IsSuccessStatusCode)
                 {
-                    string responseContent = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine(responseContent);
+                    // Deserialize JSON into object
+                   Model quote = JsonSerializer.Deserialize<Model>(response.Content);
+
+                    // Display
+                    Console.WriteLine("Quote successful: \n\n" + quote.content);
                 }
                 else
                 {
                     Console.WriteLine("API call failed with status code: " + response.StatusCode);
+
                 }
             }
-            catch (HttpRequestException e)
+            catch (Exception e)
             {
                 Console.WriteLine("An error occurred: " + e.Message);
+
+                
             }
+
         }
 
 
